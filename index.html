@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz - Qual Tendência Pedagógica é a sua?</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#2b2b2b;
+      --muted:#6b7280;
+      --primary:#2563eb;
+      --primary-dark:#1e40af;
+      --success:#16a34a;
+      --warning:#eab308;
+      --neutral:#94a3b8;
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;
+      background:linear-gradient(180deg,#eef2ff, #f6f7fb 40%);
+      color:var(--text);
+    }
+    .wrap{
+      max-width:980px;
+      margin:32px auto;
+      padding:0 16px;
+    }
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:0 10px 30px rgba(0,0,0,.06);
+      padding:24px;
+    }
+    h1{
+      margin:0 0 8px;
+      font-size:clamp(22px,3.4vw,34px);
+      text-align:center;
+      letter-spacing:.3px;
+    }
+    .subtitle{
+      text-align:center;
+      color:var(--muted);
+      margin-bottom:18px;
+    }
+    .question{
+      margin:22px 0;
+      padding:16px;
+      border:1px solid #e5e7eb;
+      border-radius:12px;
+      background:#fafafa;
+    }
+    .question p{
+      margin:0 0 10px;
+      font-weight:600;
+    }
+    .options label{
+      display:block;
+      padding:10px 12px;
+      margin:8px 0;
+      border-radius:10px;
+      background:#f3f4f6;
+      cursor:pointer;
+      border:1px solid transparent;
+      transition:.2s ease;
+      line-height:1.35;
+    }
+    .options input{margin-right:8px}
+    .options label:hover{background:#eaf2ff}
+    .actions{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      margin-top:20px;
+      flex-wrap:wrap;
+    }
+    button{
+      appearance:none;
+      border:none;
+      padding:12px 20px;
+      border-radius:12px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+    .btn-primary{
+      background:var(--primary);
+      color:white;
+    }
+    .btn-primary:hover{background:var(--primary-dark)}
+    .btn-ghost{
+      background:#eef2ff;
+      color:#1f2937;
+    }
+    .btn-ghost:hover{filter:brightness(.97)}
+    .result{
+      display:none;
+      margin-top:22px;
+      border-radius:12px;
+      border:1px solid #e5e7eb;
+      background:#f9f9ff;
+      padding:18px;
+    }
+    .result h2{margin:0 0 8px}
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:16px;
+    }
+    @media (min-width:840px){
+      .grid{grid-template-columns:1.1fr .9fr}
+    }
+    .kpis{
+      display:grid;
+      gap:10px;
+    }
+    .kpi{
+      background:white;
+      border:1px solid #e5e7eb;
+      border-radius:10px;
+      padding:12px;
+    }
+    .label-row{
+      display:flex;
+      justify-content:space-between;
+      font-size:14px;
+      color:#111827;
+      margin-bottom:6px;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .bar{
+      width:100%;
+      height:12px;
+      background:#eef2ff;
+      border-radius:999px;
+      overflow:hidden;
+      position:relative;
+    }
+    .bar > span{
+      display:block;
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      transition:width .6s ease;
+    }
+    .bar .trad{ background: var(--success); }
+    .bar .prog{ background: var(--warning); }
+    .bar .naod{ background: var(--neutral); }
+    .explain{
+      background:white;
+      border:1px solid #e5e7eb;
+      border-radius:12px;
+      padding:14px 16px;
+    }
+    .explain h3{margin:6px 0 10px}
+    .explain h4{margin:6px 0 8px}
+    .muted{color:var(--muted)}
+    .footer-note{
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Qual Tendência Pedagógica é a sua?</h1>
+      <p class="subtitle">Responda às 10 situações. No final, você verá a porcentagem de cada tendência e um texto explicativo sobre a sua predominante.</p>
+
+      <form id="quizForm">
+        <!-- 1 -->
+        <div class="question">
+          <p>1. Diante de um aluno com dificuldade de aprendizagem, você:</p>
+          <div class="options">
+            <label><input type="radio" name="q1" value="tradicional"> Reforça exercícios repetitivos e avalia pelo resultado.</label>
+            <label><input type="radio" name="q1" value="progressivista"> Busca atividades práticas e colaborativas para facilitar a compreensão.</label>
+            <label><input type="radio" name="q1" value="naodiretiva"> Conversa para entender sentimentos e motivações internas.</label>
+          </div>
+        </div>
+        <!-- 2 -->
+        <div class="question">
+          <p>2. Qual deve ser o papel do professor?</p>
+          <div class="options">
+            <label><input type="radio" name="q2" value="tradicional"> Transmitir conhecimentos e garantir a disciplina.</label>
+            <label><input type="radio" name="q2" value="progressivista"> Orientar o aluno em projetos e atividades práticas.</label>
+            <label><input type="radio" name="q2" value="naodiretiva"> Facilitar a autodescoberta do aluno.</label>
+          </div>
+        </div>
+        <!-- 3 -->
+        <div class="question">
+          <p>3. Ao planejar uma aula, você prefere:</p>
+          <div class="options">
+            <label><input type="radio" name="q3" value="tradicional"> Definir previamente todos os conteúdos e metas.</label>
+            <label><input type="radio" name="q3" value="progressivista"> Preparar atividades que estimulem a participação ativa.</label>
+            <label><input type="radio" name="q3" value="naodiretiva"> Deixar espaço para questões e interesses dos alunos.</label>
+          </div>
+        </div>
+        <!-- 4 -->
+        <div class="question">
+          <p>4. Para você, a avaliação deve ser:</p>
+          <div class="options">
+            <label><input type="radio" name="q4" value="tradicional"> Provas objetivas e notas.</label>
+            <label><input type="radio" name="q4" value="progressivista"> Processual, valorizando a evolução.</label>
+            <label><input type="radio" name="q4" value="naodiretiva"> Reflexiva, com foco na autoavaliação.</label>
+          </div>
+        </div>
+        <!-- 5 -->
+        <div class="question">
+          <p>5. Em um trabalho em grupo, é mais importante:</p>
+          <div class="options">
+            <label><input type="radio" name="q5" value="tradicional"> Cada aluno executar corretamente sua parte individual.</label>
+            <label><input type="radio" name="q5" value="progressivista"> Haver cooperação e troca de ideias.</label>
+            <label><input type="radio" name="q5" value="naodiretiva"> O grupo escolher livremente como se organizar.</label>
+          </div>
+        </div>
+        <!-- 6 -->
+        <div class="question">
+          <p>6. Quando surge um conflito em sala, você:</p>
+          <div class="options">
+            <label><input type="radio" name="q6" value="tradicional"> Impõe regras e aplica medidas disciplinares.</label>
+            <label><input type="radio" name="q6" value="progressivista"> Media o diálogo para que todos se expressem.</label>
+            <label><input type="radio" name="q6" value="naodiretiva"> Permite livre expressão de sentimentos, com mínima intervenção.</label>
+          </div>
+        </div>
+        <!-- 7 -->
+        <div class="question">
+          <p>7. Sobre o currículo escolar, você acredita que:</p>
+          <div class="options">
+            <label><input type="radio" name="q7" value="tradicional"> Deve ser fixo e seguido à risca.</label>
+            <label><input type="radio" name="q7" value="progressivista"> Pode ser adaptado a projetos e contextos.</label>
+            <label><input type="radio" name="q7" value="naodiretiva"> Deve ser construído com os alunos a partir de seus interesses.</label>
+          </div>
+        </div>
+        <!-- 8 -->
+        <div class="question">
+          <p>8. Qual a principal função da escola?</p>
+          <div class="options">
+            <label><input type="radio" name="q8" value="tradicional"> Transmitir conhecimento e manter a ordem social.</label>
+            <label><input type="radio" name="q8" value="progressivista"> Formar cidadãos críticos por meio de experiências.</label>
+            <label><input type="radio" name="q8" value="naodiretiva"> Desenvolver autonomia e personalidade.</label>
+          </div>
+        </div>
+        <!-- 9 -->
+        <div class="question">
+          <p>9. Se um aluno questiona o conteúdo, você:</p>
+          <div class="options">
+            <label><input type="radio" name="q9" value="tradicional"> Explica que é necessário e deve ser aprendido.</label>
+            <label><input type="radio" name="q9" value="progressivista"> Estimula debate e relação com situações reais.</label>
+            <label><input type="radio" name="q9" value="naodiretiva"> Incentiva que explore suas próprias perguntas.</label>
+          </div>
+        </div>
+        <!-- 10 -->
+        <div class="question">
+          <p>10. Para você, aprender é principalmente:</p>
+          <div class="options">
+            <label><input type="radio" name="q10" value="tradicional"> Memorizar e reproduzir conteúdos.</label>
+            <label><input type="radio" name="q10" value="progressivista"> Viver experiências e resolver problemas.</label>
+            <label><input type="radio" name="q10" value="naodiretiva"> Descobrir a si mesmo e desenvolver-se pessoalmente.</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn-primary" type="button" id="btnResult">Ver Resultado</button>
+          <button class="btn-ghost" type="reset" id="btnReset">Limpar respostas</button>
+        </div>
+      </form>
+
+      <div id="result" class="result">
+        <div class="grid">
+          <div>
+            <h2>Resultado</h2>
+            <p class="muted" id="resume"></p>
+
+            <div class="kpis">
+              <div class="kpi">
+                <div class="label-row">
+                  <strong>Tradicional</strong><span id="pctTrad">0%</span>
+                </div>
+                <div class="bar"><span class="trad" id="barTrad"></span></div>
+              </div>
+              <div class="kpi">
+                <div class="label-row">
+                  <strong>Renovada Progressivista</strong><span id="pctProg">0%</span>
+                </div>
+                <div class="bar"><span class="prog" id="barProg"></span></div>
+              </div>
+              <div class="kpi">
+                <div class="label-row">
+                  <strong>Renovadora Não-diretiva</strong><span id="pctNaoD">0%</span>
+                </div>
+                <div class="bar"><span class="naod" id="barNaoD"></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="explain">
+            <h3 id="mainTitle">Sua tendência predominante</h3>
+            <div id="explainText"></div>
+          </div>
+        </div>
+
+        <p class="footer-note">Dica: se houver empate, a predominância considera a primeira(s) com maior pontuação. Você pode revisar suas respostas e recalcular.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const btnResult = document.getElementById('btnResult');
+    const btnReset  = document.getElementById('btnReset');
+    const resultBox = document.getElementById('result');
+
+    const names = {
+      tradicional: "Tradicional (Liberal)",
+      progressivista: "Renovada Progressivista",
+      naodiretiva: "Renovadora Não-diretiva"
+    };
+
+    // Textos explicativos fornecidos por você
+    const descriptions = {
+      tradicional: `
+        <h4>Tendência Pedagógica Tradicional (Liberal)</h4>
+        <p>A tendência pedagógica tradicional tem como objetivo a preparação intelectual e moral do aluno, assegurando a transmissão da cultura acumulada pela sociedade. Nessa concepção, o conhecimento é visto como algo pronto, absoluto e inquestionável, cabendo ao professor transmitir conteúdos já estabelecidos.</p>
+        <p>O método de ensino baseia-se em aulas expositivas, memorização e exercícios repetitivos, valorizando a disciplina e a obediência. O professor é considerado a autoridade máxima e o detentor do saber, enquanto o aluno ocupa um papel passivo, limitado a receber informações.</p>
+        <p>A aprendizagem foca-se na memorização e na repetição, sem necessariamente estimular a reflexão crítica. Apesar das críticas à rigidez, esse modelo marcou historicamente a educação, principalmente nas escolas religiosas e nas primeiras instituições formais, contribuindo para a organização sistemática do ensino.</p>
+      `,
+      progressivista: `
+        <h4>Tendência Pedagógica Renovada Progressista</h4>
+        <p>A tendência renovada progressista surge como crítica à rigidez da escola tradicional, colocando o aluno como sujeito ativo do processo educativo. O objetivo central é a aprendizagem por meio da experiência e da investigação, sempre vinculada ao meio social.</p>
+        <p>Os conteúdos são selecionados de acordo com os interesses do aluno e sua relevância para a vida em sociedade. Os métodos envolvem pesquisa, experimentação e o princípio do “aprender fazendo”, como defendia John Dewey, um dos principais representantes.</p>
+        <p>Nesse modelo, o professor atua como facilitador e orientador, guiando o aluno em suas descobertas. O aluno, por sua vez, é visto como curioso, autônomo e protagonista da aprendizagem.</p>
+        <p>A aprendizagem concentra-se em processos investigativos, no desenvolvimento da autonomia e na construção de conhecimento por meio da prática. Essa tendência foi fundamental para a Escola Nova, influenciando reformas educacionais no Brasil e no mundo.</p>
+      `,
+      naodiretiva: `
+        <h4>Tendência Pedagógica Renovadora Não-Diretiva</h4>
+        <p>A tendência renovadora não-diretiva tem como principal foco o desenvolvimento psicológico do aluno e a formação de atitudes e valores. Inspirada principalmente nas ideias do psicólogo humanista Carl Rogers, essa perspectiva entende a educação como um processo de autoconhecimento e autorrealização.</p>
+        <p>Os conteúdos não são impostos, mas surgem das necessidades e percepções do próprio estudante, com ênfase em mudanças de atitudes. Os métodos estão centrados na facilitação da aprendizagem, nas vivências significativas e no respeito ao ritmo individual.</p>
+        <p>O professor não ocupa um lugar de autoridade, mas de orientador em relações humanas, oferecendo apoio e criando um ambiente acolhedor. Já o aluno é visto como autônomo, livre-expressivo e responsável por sua própria trajetória de aprendizagem.</p>
+        <p>A aprendizagem foca-se em sentimentos, valores e atitudes, reconhecendo a dimensão subjetiva e afetiva da formação humana. Essa tendência representa um avanço ao valorizar a liberdade e a singularidade de cada indivíduo no processo educativo.</p>
+      `
+    };
+
+    function computeScores() {
+      const form = document.getElementById('quizForm');
+      const data = new FormData(form);
+      const scores = { tradicional: 0, progressivista: 0, naodiretiva: 0 };
+
+      for (const value of data.values()) {
+        if (scores[value] !== undefined) scores[value]++;
+      }
+      return scores;
+    }
+
+    function showResult() {
+      const scores = computeScores();
+      const total = scores.tradicional + scores.progressivista + scores.naodiretiva;
+
+      if (total < 10) {
+        alert("Por favor, responda todas as 10 perguntas antes de ver o resultado.");
+        return;
+      }
+
+      const pct = {
+        tradicional: ((scores.tradicional / total) * 100),
+        progressivista: ((scores.progressivista / total) * 100),
+        naodiretiva: ((scores.naodiretiva / total) * 100)
+      };
+
+      // Atualiza números (com 1 casa decimal)
+      document.getElementById('pctTrad').textContent = pct.tradicional.toFixed(1) + "%";
+      document.getElementById('pctProg').textContent = pct.progressivista.toFixed(1) + "%";
+      document.getElementById('pctNaoD').textContent = pct.naodiretiva.toFixed(1) + "%";
+
+      // Atualiza barras
+      document.getElementById('barTrad').style.width = pct.tradicional + "%";
+      document.getElementById('barProg').style.width = pct.progressivista + "%";
+      document.getElementById('barNaoD').style.width = pct.naodiretiva + "%";
+
+      // Tendência predominante (se houver empate, pega a primeira com maior valor na ordem abaixo)
+      const order = ["tradicional","progressivista","naodiretiva"];
+      const top = order.reduce((best, key) => scores[key] > scores[best] ? key : best, order[0]);
+
+      // Cabeçalho e texto
+      const resume = `Você respondeu ${total} questões. Predominância: ${names[top]}.`;
+      document.getElementById('resume').textContent = resume;
+      document.getElementById('mainTitle').textContent = `Sua tendência predominante: ${names[top]}`;
+      document.getElementById('explainText').innerHTML = descriptions[top];
+
+      resultBox.style.display = 'block';
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    btnResult.addEventListener('click', showResult);
+    btnReset.addEventListener('click', () => {
+      // limpa resultado e barras
+      resultBox.style.display = 'none';
+      ['barTrad','barProg','barNaoD'].forEach(id => document.getElementById(id).style.width = '0%');
+      ['pctTrad','pctProg','pctNaoD'].forEach(id => document.getElementById(id).textContent = '0%');
+      document.getElementById('resume').textContent = '';
+      document.getElementById('mainTitle').textContent = 'Sua tendência predominante';
+      document.getElementById('explainText').innerHTML = '';
+      // recolhe a página pro topo
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
